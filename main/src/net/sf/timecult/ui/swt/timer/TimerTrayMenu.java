@@ -45,16 +45,21 @@ public class TimerTrayMenu {
     
     
     public void open() {
-        Display d = timerWindow.getShell().getDisplay();
-        if (trayShell == null || trayShell.isDisposed()) {
-            trayShell = new Shell(d, SWT.SINGLE);
-            setup(trayShell);
-        }
-        this.popup.setVisible(true);
-        while (trayShell != null && !trayShell.isDisposed()) {
-            if (!d.readAndDispatch())
-                d.sleep();
-        }
+	    Display d = timerWindow.getShell().getDisplay();
+	    if (trayShell == null || trayShell.isDisposed()) {
+		    trayShell = new Shell(d, SWT.SINGLE);
+		    setup(trayShell);
+	    }
+	    this.popup.setVisible(true);
+	    try {
+		    while (trayShell != null && !trayShell.isDisposed()) {
+			    if (d != null  && !d.readAndDispatch())
+				    d.sleep();
+		    }
+	    } catch (Exception ex) {
+
+	    }
+
     }
     
     private void setup(Shell shell) {
