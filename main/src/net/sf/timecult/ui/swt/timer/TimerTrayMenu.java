@@ -53,9 +53,16 @@ public class TimerTrayMenu {
 	    this.popup.setVisible(true);
 	    try {
 		    while (trayShell != null && !trayShell.isDisposed()) {
-			    if (d != null  && !d.readAndDispatch())
-				    d.sleep();
+		    	try{
+		            if (d != null  && !d.readAndDispatch()) {
+		            	d.sleep();
+		            }
+	        	} catch (ArithmeticException ae) {
+	        		d.sleep();
+	        		System.out.println(ae.getMessage() + " Bounds: " + d.getBounds().toString());
+	        	}
 		    }
+		    
 	    } catch (Exception ex) {
 
 	    }

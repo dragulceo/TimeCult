@@ -78,8 +78,14 @@ public class HelpWindow {
         this.shell.open();
         Display display = this.shell.getDisplay();
         while (!this.shell.isDisposed()) {
-            if (!display.readAndDispatch())
-                display.sleep();
+        	try{
+	            if (!display.readAndDispatch()) {
+	            	display.sleep();
+	            }
+        	} catch (ArithmeticException ae) {
+        		display.sleep();
+        		System.out.println(ae.getMessage() + " Bounds: " + display.getBounds().toString());
+        	}
         }
     }
 

@@ -76,8 +76,14 @@ public class TrayMenu {
         }
         this.popup.setVisible(true);
         while (trayShell != null && !trayShell.isDisposed()) {
-            if (!d.readAndDispatch())
-                d.sleep();
+        	try{
+	            if (!d.readAndDispatch()) {
+	                d.sleep();
+	            }
+        	} catch (ArithmeticException ae) {
+        		d.sleep();
+        		System.out.println(ae.getMessage() + " Bounds: " + d.getBounds().toString());
+        	}
         }
     }
     

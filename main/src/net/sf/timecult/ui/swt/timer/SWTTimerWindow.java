@@ -163,9 +163,14 @@ public class SWTTimerWindow implements StopwatchListener {
         _stopwatch.start();
         // addToTray();
         while (!_shell.isDisposed()) {
-            if (!_display.readAndDispatch()) {
-                _display.sleep();
-            }
+        	try{
+	            if (!_display.readAndDispatch()) {
+	            	_display.sleep();
+	            }
+        	} catch (ArithmeticException ae) {
+        		_display.sleep();
+        		System.out.println(ae.getMessage() + " Bounds: " + _display.getBounds().toString());
+        	}
         }
     }
 
@@ -301,8 +306,14 @@ public class SWTTimerWindow implements StopwatchListener {
         Rectangle dispArea = shell.getDisplay().getBounds();
         Point timerLocation = shell.getLocation();
         if (!dispArea.contains(timerLocation)) {
-            int x = timerLocation.x % dispArea.width;
-            int y = timerLocation.y % dispArea.height;
+        	int x = 0;
+        	if(dispArea.width != 0) {
+        		x = timerLocation.x % dispArea.width;
+        	}
+        	int y = 0;
+        	if(dispArea.width != 0) {
+        		y = timerLocation.y % dispArea.height;
+        	}
             shell.setLocation(x, y);
         }
     }

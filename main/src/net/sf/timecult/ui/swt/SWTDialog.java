@@ -29,6 +29,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -153,7 +154,14 @@ public abstract class SWTDialog extends Dialog {
 		}
 		Display display = parent.getDisplay();
 		while (!_shell.isDisposed()) {
-			if (!display.readAndDispatch()) display.sleep();
+			try{
+	            if (!display.readAndDispatch()) {
+	            	display.sleep();
+	            }
+        	} catch (ArithmeticException ae) {
+        		display.sleep();
+        		System.out.println(ae.getMessage() + " Bounds: " + display.getBounds().toString());
+        	}
 		}
 	}			
 
