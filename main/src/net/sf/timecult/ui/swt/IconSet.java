@@ -119,8 +119,21 @@ public class IconSet {
     }    
     
     private Image createImage(Display display, String imgFile) {
-        InputStream inputStream = ResourceHelper.openStream("images/" + imgFile);
-        return new Image(display, inputStream);
+        Image image = null;
+    	try {
+    		InputStream inputStream = ResourceHelper.openStream("images/" + imgFile);
+    		image = new Image(display, inputStream);
+    	} catch (Exception ex) {
+    		if (imgFile.equals("timecult.ico")) {
+    			image = new Image(display, ResourceHelper.openStream("images/timecult_ico-5.png"));
+    		} 
+    	} finally {
+    		if (image == null) {
+        		image = new Image(display, ResourceHelper.openStream("images/default.png"));
+    		}
+    	}
+        
+        return image;
     }
         
     public Image getIcon (String tag, boolean enabled) {
